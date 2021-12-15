@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>jQuery Query Builder Template</title>
+        
+        <!-- include jquery a dependency of query builder.-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+
+
+        <!-- include jquery extendext, a dependency of query builder. -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-extendext@1.0.0/jquery-extendext.min.js"></script>
+
+
+        <!-- 
+            Include Bootstrap 3, required by query builder
+            There is a way to remove this dependency: 
+            https://querybuilder.js.org/dev/no-bootstrap.html
+        -->
+        <link 
+            rel="stylesheet" 
+            href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" 
+            integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" 
+            crossorigin="anonymous"
+        >
+        <script 
+            src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" 
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" 
+            crossorigin="anonymous"
+        >
+        </script>
+        
+
+        <!-- include dot.js, required for query builder-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dot/1.1.3/doT.min.js"></script>
+
+
+        <!-- 
+            include moment.js, an optional dependency that is required if you 
+            want time/date validation 
+        -->
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" 
+            integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"
+        ></script>
+        
+
+        <!-- Finally, include jquery query builder JS/CSS-->
+        <script src="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.6.2/dist/js/query-builder.min.js"></script>
+        <link 
+            rel="stylesheet" 
+            href="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.6.2/dist/css/query-builder.default.min.css"
+        >
+
+    </head>
+    <body>
+
+        
+        <div class="container">
+            <h2>Query Builder</h2>
+            <div id="builder"></div>
+            <button id="submit-button" class="btn btn-primary">Get Query In JSON Format</button>
+            <textarea 
+                id="textarea-rules" 
+                class="form-control" 
+                rows="10" 
+                readonly 
+                style="display:none; margin-top: 1em;"
+            ></textarea>
+        </div>
+        
+
+        <script>
+            
+            // When the document has loaded all the things, have JS create the
+            // query builder.
+            $(document).ready(function(){
+
+                // Configure your query builder here.
+                // Relevant documentation: https://querybuilder.js.org/#options
+                var queryBuilderOptions = {
+                    filters: [
+                        {
+                            id: 'name',
+                            label: 'Name',
+                            type: 'string'
+                        },
+                        {
+                            id: 'age',
+                            label: 'Age',
+                            type: 'integer'
+                        }
+                    ]
+                };
+
+                $('#builder').queryBuilder(queryBuilderOptions);
+
+                $('#submit-button').click(function(){
+                    var rules = $('#builder').queryBuilder('getRules');
+                    console.log(JSON.stringify(rules));
+                    $('#textarea-rules').css("display", "block");
+                    document.getElementById('textarea-rules').value = JSON.stringify(rules, null, '    ');
+                });
+
+            });
+            
+        </script>
+    </body>
+</html>
